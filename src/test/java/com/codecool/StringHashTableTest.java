@@ -14,7 +14,7 @@ public class StringHashTableTest {
 
     @BeforeEach()
     void initializeHashTable() {
-        hashTable = new StringHashTable(3, new DefaultHasher);
+        hashTable = new StringHashTable(3, new DefaultHasher());
     }
 
 
@@ -35,7 +35,7 @@ public class StringHashTableTest {
         hashTable.add("Dog", "dog");
         hashTable.add("Cat", "cat");
         hashTable.add("Fish", "fish");
-        List<String> expectedResult = Arrays.asList("dog cat fish");
+        List<String> expectedResult = Arrays.asList("dog", "cat", "fish");
         List<String> actualResult = hashTable.getAll();
         int expectedSize = 3;
         int actualSize = hashTable.size();
@@ -50,7 +50,7 @@ public class StringHashTableTest {
         hashTable.add("Cat", "cat");
         hashTable.add("Fish", "fish");
         hashTable.add("Snake", "snake");
-        List<String> expectedResult = Arrays.asList("dog cat fish snake");
+        List<String> expectedResult = Arrays.asList("dog", "cat", "fish", "snake");
         List<String> actualResult = hashTable.getAll();
         int expectedSize = 4;
         int actualSize = hashTable.size();
