@@ -7,9 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,32 +30,35 @@ class SpellCheckerTest {
 
     @Test
     void checkTest_OneCorrectWord() {
-        List<String> expectedResult = Collections.emptyList();
-        List<String> actualResult = spellChecker.check("abalone");
+        Set<String> expectedResult = new HashSet<>();
+        Set<String> actualResult = spellChecker.check("abalone");
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     void checkTest_OneIncorrectWord_MissingLetter() {
-        List<String> expectedResult = Arrays.asList("abalone");
-        List<String> actualResult = spellChecker.check("aalone");
+        Set<String> expectedResult = new HashSet<>();
+        expectedResult.add("abalone");
+        Set<String> actualResult = spellChecker.check("aalone");
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     void checkTest_OneIncorrectWord_MultipliedLetter() {
-        List<String> expectedResult = Arrays.asList("abalone");
-        List<String> actualResult = spellChecker.check("abbalone");
+        Set<String> expectedResult = new HashSet<>();
+        expectedResult.add("abalone");
+        Set<String> actualResult = spellChecker.check("abbalone");
 
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     void checkTest_OneIncorrectWord_Misspelled() {
-        List<String> expectedResult = Arrays.asList("abalone");
-        List<String> actualResult = spellChecker.check("analone");
+        Set<String> expectedResult = new HashSet<>();
+        expectedResult.add("abalone");
+        Set<String> actualResult = spellChecker.check("analone");
 
         assertEquals(expectedResult, actualResult);
     }

@@ -1,7 +1,8 @@
 package com.codecool;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SpellChecker {
 
@@ -17,8 +18,8 @@ public class SpellChecker {
      * @param word The string to check for correctness
      * @return List of proposed correct words
      */
-    public List<String> check(String word) {
-        List<String> suggestions = new ArrayList<>();
+    public Set<String> check(String word) {
+        Set<String> suggestions = new HashSet<>();
         if(word == null || word.length() < 1) {
             return suggestions;
         }
@@ -36,8 +37,8 @@ public class SpellChecker {
         return suggestions;
     }
 
-    private List<String> misspellCheck(String word) {
-        List<String> suggestions = new ArrayList<>();
+    private Set<String> misspellCheck(String word) {
+        Set<String> suggestions = new HashSet<>();
         for(int i = 0; i < word.length(); i++) {
             String wordStart = word.substring(0,i);
             String wordEnd = word.substring(i + 1);
@@ -56,8 +57,8 @@ public class SpellChecker {
         return suggestions;
     }
 
-    private List<String> multiplyCheck(String word) {
-        List<String> suggestions = new ArrayList<>();
+    private Set<String> multiplyCheck(String word) {
+        Set<String> suggestions = new HashSet<>();
         for(int i = 0; i < word.length(); i++) {
             StringBuilder modifiedWord = new StringBuilder();
             String wordStart = word.substring(0,i);
@@ -74,8 +75,8 @@ public class SpellChecker {
         return suggestions;
     }
 
-    private List<String> missCheck(String word) {
-        List<String> suggestions = new ArrayList<>();
+    private Set<String> missCheck(String word) {
+        Set<String> suggestions = new HashSet<>();
 
         return suggestions;
     }
