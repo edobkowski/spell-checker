@@ -60,6 +60,22 @@ public class StringHashTable {
         size++;
     }
 
+    public boolean remove(String key) {
+        int hashedKey = hash(key);
+        if(this.entries[hashedKey] == null) {
+            return false;
+        }
+        for(StringKeyValue kv : this.entries[hashedKey]) {
+            if(kv.getKey().equals(key)) {
+                entries[hashedKey].remove(kv);
+                size--;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public String get(String key) {
         int hashedKey = hash(key);
         if(this.entries[hashedKey] == null) {
