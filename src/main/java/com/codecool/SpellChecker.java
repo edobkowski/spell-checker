@@ -38,24 +38,35 @@ public class SpellChecker {
 
     private Set<String> misspellCheck(String word) {
         Set<String> suggestions = new HashSet<>();
-        for(int i = 0; i < word.length(); i++) {
-            for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
-                String insertion = String.valueOf((char) substitutionLetter);
-                String modifiedWord = modifyString(word, i, i + 1, insertion);
-                String suggestion = words.get(modifiedWord);
-                if(suggestion != null) {
-                    suggestions.add(suggestion);
-                }
-            }
+        for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
+            String insertion = String.valueOf((char) substitutionLetter);
+            suggestions.addAll(modifyString(word, 1, insertion));
         }
 
         return suggestions;
     }
 
     private Set<String> multiplyCheck(String word) {
+        return modifyString(word, 1, "");
+    }
+
+    private Set<String> missCheck(String word) {
         Set<String> suggestions = new HashSet<>();
+        for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
+            String insertion = String.valueOf((char) substitutionLetter);
+            suggestions.addAll(modifyString(word, 0, insertion));
+        }
+
+        return suggestions;
+    }
+
+    private Set<String> modifyString(String word, int splitShift, String insertion) {
+        Set<String> suggestions = new HashSet<>();
+
         for(int i = 0; i < word.length(); i++) {
-            String modifiedWord = modifyString(word, i, i + 1, "");
+            String wordStart = word.substring(0, i);
+            String wordEnd = word.substring(i + splitShift);
+            String modifiedWord = wordStart + insertion + wordEnd;
             String suggestion = words.get(modifiedWord);
             if(suggestion != null) {
                 suggestions.add(suggestion);
@@ -63,28 +74,5 @@ public class SpellChecker {
         }
 
         return suggestions;
-    }
-
-    private Set<String> missCheck(String word) {
-        Set<String> suggestions = new HashSet<>();
-        for(int i = 0; i < word.length(); i++) {
-            for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
-                String insertion = String.valueOf((char) substitutionLetter);
-                String modifiedWord = modifyString(word, i, i, insertion);
-                String suggestion = words.get(modifiedWord);
-                if(suggestion != null) {
-                    suggestions.add(suggestion);
-                }
-            }
-        }
-
-        return suggestions;
-    }
-
-    private String modifyString(String word, int startSplitIndex, int endSplitIndex, String insertion) {
-        String wordStart = word.substring(0,startSplitIndex);
-        String wordEnd = word.substring(endSplitIndex);
-
-        return wordStart + insertion + wordEnd;
     }
 }
