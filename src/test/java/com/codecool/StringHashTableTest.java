@@ -56,7 +56,7 @@ public class StringHashTableTest {
         int actualSize = hashTable.size();
 
         assertEquals(expectedSize, actualSize);
-        assertIterableEquals(expectedResult, actualResult);
+        assertTrue(actualResult.containsAll(expectedResult));
     }
 
     @Test
