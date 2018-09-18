@@ -58,6 +58,18 @@ public class SpellChecker {
 
     private List<String> multiplyCheck(String word) {
         List<String> suggestions = new ArrayList<>();
+        for(int i = 0; i < word.length(); i++) {
+            StringBuilder modifiedWord = new StringBuilder();
+            String wordStart = word.substring(0,i);
+            String wordEnd = word.substring(i + 1);
+            modifiedWord.append(wordStart)
+                    .append(wordEnd);
+            String suggestion = words.get(modifiedWord.toString());
+            if(suggestion != null) {
+                suggestions.add(suggestion);
+
+            }
+        }
 
         return suggestions;
     }
