@@ -1,5 +1,6 @@
 package com.codecool;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class StringHashTable {
      * @param stringHasher instance of a class responsible for hashing
      */
     public StringHashTable(StringHasher stringHasher) {
-        this.stringHasher = stringHasher;
+        this(10, stringHasher);
     }
 
     /**
@@ -39,5 +40,70 @@ public class StringHashTable {
      */
     public StringHashTable() {
         this(10, new DefaultHasher());
+    }
+
+    public void add(String key, String value) {
+        ensureCapacity(this.size+1);
+        int hashedKey = hash(key);
+        if(this.entries[hashedKey] == null) {
+            this.entries[hashedKey] = new LinkedList<>();
+        }
+
+        for(StringKeyValue kv : this.entries[hashedKey]) {
+            if(kv.getKey().equals(key)) {
+                kv.setValue(value);
+                return;
+            }
+        }
+
+        this.entries[hashedKey].add(new StringKeyValue(key, value));
+        size++;
+    }
+
+    public String get(String key) {
+        int hashedKey = hash(key);
+        if(this.entries[hashedKey] == null) {
+            return null;
+        }
+
+        for(StringKeyValue kv : this.entries[hashedKey]) {
+            if(kv.getKey().equals(key)) {
+                return kv.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    public List<String> getAll() {
+        List<String> result = new ArrayList<>();
+        for(int i = 0; i < this.size; i++) {
+            if(this.entries[i] == null) {
+                continue;
+            }
+            for(StringKeyValue kv : this.entries[i]) {
+                result.add(kv.getValue());
+            }
+        }
+
+        return result;
+    }
+
+    public int size() {
+        return this.size;
+    }
+
+    private void ensureCapacity(int requiredSize) {
+        if(requiredSize < 0) {
+            throw new IllegalArgumentException("Cannot set a negative table size");
+        }
+        if(requiredSize > this.capacity) {
+            int newCapacity = this.capacity*3/2 + 1;
+            this.entries = Arrays.copyOf(this.entries, newCapacity);
+        }
+    }
+
+    private int hash(String key) {
+        return stringHasher.hash(key)%this.capacity;
     }
 }
