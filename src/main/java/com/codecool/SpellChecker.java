@@ -67,6 +67,16 @@ public class SpellChecker {
 
     private Set<String> missCheck(String word) {
         Set<String> suggestions = new HashSet<>();
+        for(int i = 0; i < word.length(); i++) {
+            for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
+                String insertion = String.valueOf((char) substitutionLetter);
+                String modifiedWord = modifyString(word, i, i, insertion);
+                String suggestion = words.get(modifiedWord);
+                if(suggestion != null) {
+                    suggestions.add(suggestion);
+                }
+            }
+        }
 
         return suggestions;
     }
