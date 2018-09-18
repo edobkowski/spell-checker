@@ -33,6 +33,7 @@ public class SpellChecker {
         suggestions.addAll(multiplyCheck(word));
         suggestions.addAll(missCheck(word));
         suggestions.addAll(spaceMissCheck(word));
+        suggestions.addAll(swapCheck(word));
 
         return suggestions;
     }
@@ -73,10 +74,27 @@ public class SpellChecker {
         return suggestions;
     }
 
+    private Set<String> swapCheck(String word) {
+        Set<String> suggestions = new HashSet<>();
+        for(int i = 0; i < word.length() - 1; i++){
+            String modifiedWord = swapLetters(word, i, i + 1);
+            if(words.get(modifiedWord) != null) {
+                suggestions.add(modifiedWord);
+            }
+        }
+
+        return suggestions;
+    }
+
+    private String swapLetters(String word, int i, int j) {
+        String swappedLetters = String.valueOf(word.charAt(j)) + String.valueOf(word.charAt(i));
+        return modifyWord(word, i, 2, swappedLetters);
+    }
+
     private boolean isMissingSpace(String word) {
-        String[] splitedWords = word.split(" ");
-        return words.get(splitedWords[0]) != null
-            && words.get(splitedWords[1]) != null;
+        String[] splittedWords = word.split(" ");
+        return words.get(splittedWords[0]) != null
+            && words.get(splittedWords[1]) != null;
     }
 
     private Set<String> getSuggestions(String word, int splitShift, String insertion) {
