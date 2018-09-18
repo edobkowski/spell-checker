@@ -39,6 +39,7 @@ class SpellCheckerTest {
     @Test
     void checkTest_OneIncorrectWord_MissingLetter() {
         Set<String> expectedResult = new HashSet<>();
+        expectedResult.add("alone");
         expectedResult.add("abalone");
         Set<String> actualResult = spellChecker.check("aalone");
 
