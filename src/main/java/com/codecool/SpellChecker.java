@@ -32,6 +32,7 @@ public class SpellChecker {
         suggestions.addAll(misspellCheck(word));
         suggestions.addAll(multiplyCheck(word));
         suggestions.addAll(missCheck(word));
+        suggestions.addAll(spaceMissCheck(word));
 
         return suggestions;
     }
@@ -40,33 +41,48 @@ public class SpellChecker {
         Set<String> suggestions = new HashSet<>();
         for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
             String insertion = String.valueOf((char) substitutionLetter);
-            suggestions.addAll(modifyString(word, 1, insertion));
+            suggestions.addAll(getSuggestions(word, 1, insertion));
         }
 
         return suggestions;
     }
 
     private Set<String> multiplyCheck(String word) {
-        return modifyString(word, 1, "");
+        return getSuggestions(word, 1, "");
     }
 
     private Set<String> missCheck(String word) {
         Set<String> suggestions = new HashSet<>();
         for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
             String insertion = String.valueOf((char) substitutionLetter);
-            suggestions.addAll(modifyString(word, 0, insertion));
+            suggestions.addAll(getSuggestions(word, 0, insertion));
         }
 
         return suggestions;
     }
 
-    private Set<String> modifyString(String word, int splitShift, String insertion) {
+    private Set<String> spaceMissCheck(String word) {
         Set<String> suggestions = new HashSet<>();
+        for(int i = 1; i < word.length(); i++) {
+            String modifiedWord = modifyWord(word, i, 0, " ");
+            if(isMissingSpace(modifiedWord)) {
+                suggestions.add(modifiedWord);
+            }
+        }
 
+        return suggestions;
+    }
+
+    private boolean isMissingSpace(String word) {
+        String[] splitedWords = word.split(" ");
+        return words.get(splitedWords[0]) != null
+            && words.get(splitedWords[1]) != null;
+    }
+
+    private Set<String> getSuggestions(String word, int splitShift, String insertion) {
+        Set<String> suggestions = new HashSet<>();
         for(int i = 0; i < word.length(); i++) {
-            String wordStart = word.substring(0, i);
-            String wordEnd = word.substring(i + splitShift);
-            String modifiedWord = wordStart + insertion + wordEnd;
+            String modifiedWord = modifyWord(word, i, splitShift, insertion);
             String suggestion = words.get(modifiedWord);
             if(suggestion != null) {
                 suggestions.add(suggestion);
@@ -74,5 +90,11 @@ public class SpellChecker {
         }
 
         return suggestions;
+    }
+
+    private String modifyWord(String word, int startIndex, int splitShift, String insertion) {
+        String wordStart = word.substring(0, startIndex);
+        String wordEnd = word.substring(startIndex + splitShift);
+        return wordStart + insertion + wordEnd;
     }
 }
