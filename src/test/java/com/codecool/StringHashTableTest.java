@@ -58,4 +58,21 @@ public class StringHashTableTest {
         assertEquals(expectedSize, actualSize);
         assertIterableEquals(expectedResult, actualResult);
     }
+
+    @Test
+    void getTest_CorrectInput() {
+        hashTable.add("Dog", "dog");
+        String expectedResult = "dog";
+        String actualResult = hashTable.get("Dog");
+
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    void getTest_IncorrectInput() {
+        hashTable.add("Dog", "dog");
+        String result = hashTable.get("dog");
+
+        assertNull(result);
+    }
 }
