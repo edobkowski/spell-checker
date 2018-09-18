@@ -41,6 +41,7 @@ class SpellCheckerTest {
         Set<String> expectedResult = new HashSet<>();
         expectedResult.add("alone");
         expectedResult.add("abalone");
+        expectedResult.add("a lone");
         Set<String> actualResult = spellChecker.check("aalone");
 
         assertEquals(expectedResult, actualResult);
@@ -60,6 +61,15 @@ class SpellCheckerTest {
         Set<String> expectedResult = new HashSet<>();
         expectedResult.add("abalone");
         Set<String> actualResult = spellChecker.check("analone");
+
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    void checkTest_OneIncorrectWord_MissedSpace() {
+        Set<String> expectedResult = new HashSet<>();
+        expectedResult.add("abacus abalone");
+        Set<String> actualResult = spellChecker.check("abacusabalone");
 
         assertEquals(expectedResult, actualResult);
     }
