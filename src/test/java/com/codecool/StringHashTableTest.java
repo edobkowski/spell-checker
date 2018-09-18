@@ -75,4 +75,15 @@ public class StringHashTableTest {
 
         assertNull(result);
     }
+
+    @Test
+    void removeTest_CorrectInput() {
+        hashTable.add("Dog", "dog");
+        boolean result = hashTable.remove("Dog");
+        int expectedSize = 0;
+        int actualSize = hashTable.size();
+
+        assertTrue(result);
+        assertEquals(expectedSize, actualSize);
+    }
 }
