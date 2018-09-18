@@ -11,7 +11,7 @@ public class StringHashTable {
 
     private int size;
     private int capacity;
-    private List<String>[] entries;
+    private List<StringKeyValue>[] entries;
     private StringHasher stringHasher;
 
     /**
