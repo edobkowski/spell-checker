@@ -1,6 +1,5 @@
 package com.codecool;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,14 +39,10 @@ public class SpellChecker {
     private Set<String> misspellCheck(String word) {
         Set<String> suggestions = new HashSet<>();
         for(int i = 0; i < word.length(); i++) {
-            String wordStart = word.substring(0,i);
-            String wordEnd = word.substring(i + 1);
             for(int substitutionLetter = 'a'; substitutionLetter <= 'z'; substitutionLetter++) {
-                StringBuilder modifiedWord = new StringBuilder();
-                modifiedWord.append(wordStart)
-                            .append((char)substitutionLetter)
-                            .append(wordEnd);
-                String suggestion = words.get(modifiedWord.toString());
+                String insertion = String.valueOf((char) substitutionLetter);
+                String modifiedWord = modifyString(word, i, i + 1, insertion);
+                String suggestion = words.get(modifiedWord);
                 if(suggestion != null) {
                     suggestions.add(suggestion);
                 }
@@ -60,15 +55,10 @@ public class SpellChecker {
     private Set<String> multiplyCheck(String word) {
         Set<String> suggestions = new HashSet<>();
         for(int i = 0; i < word.length(); i++) {
-            StringBuilder modifiedWord = new StringBuilder();
-            String wordStart = word.substring(0,i);
-            String wordEnd = word.substring(i + 1);
-            modifiedWord.append(wordStart)
-                    .append(wordEnd);
-            String suggestion = words.get(modifiedWord.toString());
+            String modifiedWord = modifyString(word, i, i + 1, "");
+            String suggestion = words.get(modifiedWord);
             if(suggestion != null) {
                 suggestions.add(suggestion);
-
             }
         }
 
@@ -79,5 +69,12 @@ public class SpellChecker {
         Set<String> suggestions = new HashSet<>();
 
         return suggestions;
+    }
+
+    private String modifyString(String word, int startSplitIndex, int endSplitIndex, String insertion) {
+        String wordStart = word.substring(0,startSplitIndex);
+        String wordEnd = word.substring(endSplitIndex);
+
+        return wordStart + insertion + wordEnd;
     }
 }
