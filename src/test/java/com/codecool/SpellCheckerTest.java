@@ -66,6 +66,15 @@ class SpellCheckerTest {
     }
 
     @Test
+    void checkTest_OneIncorrectWord_SwappedLetters() {
+        Set<String> expectedResult = new HashSet<>();
+        expectedResult.add("abalone");
+        Set<String> actualResult = spellChecker.check("baalone");
+
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
     void checkTest_OneIncorrectWord_MissedSpace() {
         Set<String> expectedResult = new HashSet<>();
         expectedResult.add("abacus abalone");
