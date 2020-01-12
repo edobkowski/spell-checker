@@ -15,7 +15,6 @@ hs_err_pid*
 *.iml
 
 # Maven
-target/
 
 # VS Code trash
 .classpath
@@ -33,7 +32,6 @@ ehthumbs.db
 Thumbs.db
 
 # Compiled class file
-*.class
 
 # Logs and databases 
 *.log
